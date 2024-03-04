@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        kelas::factory(10)->create();
-        students::factory(10)->create();
+        kelas::factory(30)->create();
+        students::factory(30)->create();
 
         // kelas :: Create([
         //     'kelas' => '10 PPLG 1'

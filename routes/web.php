@@ -52,8 +52,9 @@ Route::get('/sayur/all', [sayurController::class,'index']);
 
 Route::get('/sayur/detail/{sayurs}', [sayurController::class,'show']);
 
-Route::group(["prefix" => "/student"], function(){
-    Route::get('/', [StudentsController::class,'index'])->name('student.all'); //view
+Route::get('/student/', [StudentsController::class,'index'])->name('student.all'); //view
+
+Route::group(["prefix" => "/student", 'middleware' => ['auth.custom']], function(){
     Route::get('/detail/{student}', [StudentsController::class,'show']); //detail
     Route::get('/create', [StudentsController::class,'create']); //create data
     Route::post('/add', [StudentsController::class,'store']); // add data
@@ -62,8 +63,9 @@ Route::group(["prefix" => "/student"], function(){
     Route::post('/update/{student}', [StudentsController::class,'update']); // edit data
 });
 
-Route::group(["prefix" => "/kelas"], function(){
-    Route::get('/', [KelasController::class,'index'])->name('kelas.all'); //view
+Route::get('/kelas/', [KelasController::class,'index'])->name('kelas.all'); //view
+
+Route::group(["prefix" => "/kelas", 'middleware' => ['auth.custom']], function(){
     Route::get('/detail/{kelas}', [KelasController::class,'show']); //detail
     Route::get('/create', [KelasController::class,'create']); //create data
     Route::post('/add', [KelasController::class,'store']); // add data
@@ -72,10 +74,11 @@ Route::group(["prefix" => "/kelas"], function(){
     Route::post('/update/{kelas}', [KelasController::class,'update']); // edit data
 });
 
-Route::group(["prefix" => "/auth"], function(){
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('Logout');
+
+Route::group(["prefix" => "/auth", 'middleware' => ['auth.redirect']], function(){
     Route::get('/register', [AuthController::class, 'registerView'])->name('RegisterView');
     Route::post('/register', [AuthController::class, 'register'])->name('Register');
     Route::get('/login', [AuthController::class, 'loginView'])->name('LoginView');
     Route::post('/login', [AuthController::class, 'login'])->name('Login');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('Logout');
 });
